@@ -12,6 +12,7 @@ METHODS
   "write_filehandle"
       Color::Swatch::ASE::Writer->write_filehandle($fh, $structure);
 
+  "write_file"
 AUTHOR
     Kent Fredric <kentfredric@gmail.com>
 
