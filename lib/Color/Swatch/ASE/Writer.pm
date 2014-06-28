@@ -68,7 +68,7 @@ sub write_file {
 sub _write_signature {
   my ( $self, $string, $signature ) = @_;
   $signature = 'ASEF' if not defined $signature;
-  if ( 'ASEF' ne $header ) {
+  if ( 'ASEF' ne $signature ) {
     die "Signature must be ASEF";
   }
   ${$string} .= $signature;
