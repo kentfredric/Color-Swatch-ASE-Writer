@@ -91,7 +91,7 @@ sub _write_bytes {
   else {
     $append = pack $format, @bytes;
   }
-  if ( ( length $append ) ne $lengh ) {
+  if ( ( length $append ) ne $length ) {
     warn 'Pack length did not match expected pack length!';
   }
   $$string .= $append;
