@@ -66,7 +66,7 @@ sub write_string {
   $class->_write_num_blocks( \$out, scalar @blocks );
 
   for my $block ( 0 .. $#blocks ) {
-    $class->_write_block( \$out, $block, $blocks[$block] );
+    $class->_write_block( \$out, $blocks[$block] );
   }
 
   return $out;
@@ -106,7 +106,7 @@ sub _write_signature {
 }
 
 sub _write_bytes {
-  my ( $self, $string, $length, $bytes, $format ) = @_;
+  my ( undef, $string, $length, $bytes, $format ) = @_;
   my @bytes;
   if ( ref $bytes ) {
     @bytes = @{$bytes};
@@ -130,7 +130,7 @@ sub _write_bytes {
     *STDERR->printf("\n ");
   }
 
-  $$string .= $append;
+  ${$string} .= $append;
   return;
 }
 
@@ -156,7 +156,7 @@ sub _write_block_group {
 }
 
 sub _write_block_label {
-  my ( $self, $string, $label ) = @_;
+  my ( undef, $string, $label ) = @_;
   $label = q[] if not defined $label;
   my $label_chars = encode( 'UTF16-BE', $label, Encode::FB_CROAK );
   $label_chars .= $UTF16NULL;
@@ -266,7 +266,7 @@ sub _write_block_payload {
 }
 
 sub _write_block {
-  my ( $self, $string, $block_id, $block ) = @_;
+  my ( $self, $string, $block ) = @_;
 
   my $block_body = q[];
   if ( 'group_start' eq $block->{type} ) {
