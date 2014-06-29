@@ -223,7 +223,7 @@ sub _write_cmyk {
 sub _write_gray {
   my ( $self, $string, @color ) = @_;
   die 'Gray requires 1 value' if 1 != grep { defined and length } @color;
-  $self->_write_bytes( $string, 4, [$gray], q[f>] );
+  $self->_write_bytes( $string, 4, [@color], q[f>] );
   return;
 }
 
