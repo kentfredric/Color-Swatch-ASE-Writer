@@ -193,36 +193,37 @@ my $color_table = {
 
 sub _write_color_model {
   my ( $self, $string, $model ) = @_;
-  die "Color model not defined" if not defined $model;
+  die 'Color model not defined' if not defined $model;
   die "Unknown color model $model" if not exists $color_table->{$model};
   $self->_write_bytes( $string, 4, [$model] );
   return;
 }
 
 sub _write_rgb {
-  my ( $self, $string, $red, $green, $blue ) = @_;
-  die "red is not defined"   if not defined $red;
-  die "green is not defined" if not defined $green;
-  die "blue is not defined"  if not defined $blue;
-
+  my ( $self, $string, @color ) = @_;
+  die 'RGB requires 3 values' if ( grep { defined and length } @color ) != 3;
   $self->_write_bytes( $string, 12, [ $red, $green, $blue ], q[f>f>f>] );
   return;
 }
 
 sub _write_lab {
-  my ( $self, $string, $lightness, $alpha, $beta ) = @_;
-  $self->_write_bytes( $string, 12, [ $lightness, $alpha, $beta ], q[f>f>f>] );
+  my ( $self, $string, @color ) = @_;
+  die 'LAB requires 3 values' if ( grep { defined and length } @color ) != 3;
+
+  $self->_write_bytes( $string, 12, [ @color], q[f>f>f>] );
   return;
 }
 
 sub _write_cmyk {
-  my ( $self, $string, $cyan, $magenta, $yellow, $key ) = @_;
-  $self->_write_bytes( $string, 16, [ $cyan, $magenta, $yellow, $key ], q[f>f>f>f>] );
+  my ( $self, $string, @color ) = @_;
+  die 'CMYK requires 4 values' if ( grep { defined and length } @color ) != 4;
+  $self->_write_bytes( $string, 16, [ @color ], q[f>f>f>f>] );
   return;
 }
 
 sub _write_gray {
-  my ( $self, $string, $gray ) = @_;
+  my ( $self, $string, @color ) = @_;
+  die 'Gray requires 1 value' if ( grep { defined and length } @color ) != 1;
   $self->_write_bytes( $string, 4, [$gray], q[f>] );
   return;
 }
@@ -235,13 +236,14 @@ sub _write_color_type {
 }
 
 sub _write_color {
-  my ( $self, $string, $block_id, $block ) = @_;
+  my ( $self, $string, $block ) = @_;
   $self->_write_block_group( $string, $block->{group}, 1 );
   $self->_write_block_label( $string, $block->{label} );
   $self->_write_color_model( $string, $block->{model} );
   my $color_writer = $self->can( $color_table->{ $block->{model} } );
   $self->$color_writer( $string, @{ $block->{values} } );
   $self->_write_color_type( $string, $block->{color_type} );
+  return;
 }
 
 sub _write_block_type {
@@ -279,7 +281,7 @@ sub _write_block {
     return;
   }
   if ( 'color' eq $block->{type} ) {
-    $self->_write_color( \$block_body, $block_id, $block );
+    $self->_write_color( \$block_body, $block );
     $self->_write_block_payload( $string, $BLOCK_COLOR, \$block_body );
     return;
   }
