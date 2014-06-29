@@ -58,7 +58,7 @@ my $UTF16NULL         = "\x{00}\x{00}";
 
 sub write_string {
   my ( $class, $struct ) = @_;
-  my $out = '';
+  my $out = q[];
   $class->_write_signature( \$out, $struct->{signature} );
   $class->_write_version( \$out, @{ $struct->{version} || [ 1, 0 ] } );
   my @blocks = @{ $struct->{blocks} };
@@ -96,7 +96,7 @@ sub write_file {
 }
 
 sub _write_signature {
-  my ( $self, $string, $signature ) = @_;
+  my ( undef, $string, $signature ) = @_;
   $signature = 'ASEF' if not defined $signature;
   if ( 'ASEF' ne $signature ) {
     die "Signature must be ASEF";
@@ -114,7 +114,7 @@ sub _write_bytes {
   else {
     @bytes = ($bytes);
   }
-  my $append = '';
+  my $append = q[];
   if ( not defined $format ) {
     $append .= $_ for @bytes;
   }
