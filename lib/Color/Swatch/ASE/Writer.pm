@@ -5,7 +5,7 @@ use utf8;
 
 package Color::Swatch::ASE::Writer;
 
-our $VERSION = '0.001000';
+our $VERSION = '0.001001';
 
 # ABSTRACT: Low level ASE ( Adobe Swatch Exchange ) file Writer.
 
@@ -300,7 +300,7 @@ Color::Swatch::ASE::Writer - Low level ASE ( Adobe Swatch Exchange ) file Writer
 
 =head1 VERSION
 
-version 0.001000
+version 0.001001
 
 =head1 SYNOPSIS
 
@@ -334,7 +334,7 @@ Its based on the reverse-engineered specification of Adobe™'s "Swatch Exchange
 
 =head2 C<write_string>
 
-  my $string = Color::Swatch::ASE::Writer->write_string($fh, $structure);
+  my $string = Color::Swatch::ASE::Writer->write_string($structure);
 
 =head2 C<write_filehandle>
 
