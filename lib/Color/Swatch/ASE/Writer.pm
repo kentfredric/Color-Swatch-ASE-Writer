@@ -107,9 +107,6 @@ sub _write_signature {
 
 sub _write_bytes {
   my ( $self, $string, $length, $bytes, $format ) = @_;
-  if ( $ENV{TRACE_ASE} ) {
-    *STDERR->printf( "%s : %s %s = ", [ caller(1) ]->[3], $length, ( $format ? $format : '' ) );
-  }
   my @bytes;
   if ( ref $bytes ) {
     @bytes = @{$bytes};
@@ -128,7 +125,8 @@ sub _write_bytes {
     warn 'Pack length did not match expected pack length!';
   }
   if ( $ENV{TRACE_ASE} ) {
-    *STDERR->printf( "%02x ", ord($_) ) for split //, $append;
+    *STDERR->printf( q[%s : %s %s = ], [ caller 1 ]->[3], $length, ( $format ? $format : q[] ) );
+    *STDERR->printf( q[%02x ], ord($_) ) for split //msx, $append;
     *STDERR->printf("\n ");
   }
 
@@ -202,23 +200,23 @@ sub _write_color_model {
 
 sub _write_rgb {
   my ( $self, $string, @color ) = @_;
-  die 'RGB requires 3 values' if  3 != grep { defined and length } @color;
+  die 'RGB requires 3 values' if 3 != grep { defined and length } @color;
   $self->_write_bytes( $string, 12, [ $red, $green, $blue ], q[f>f>f>] );
   return;
 }
 
 sub _write_lab {
   my ( $self, $string, @color ) = @_;
-  die 'LAB requires 3 values' if 3 != grep { defined and length } @color ;
+  die 'LAB requires 3 values' if 3 != grep { defined and length } @color;
 
-  $self->_write_bytes( $string, 12, [ @color], q[f>f>f>] );
+  $self->_write_bytes( $string, 12, [@color], q[f>f>f>] );
   return;
 }
 
 sub _write_cmyk {
   my ( $self, $string, @color ) = @_;
   die 'CMYK requires 4 values' if 4 != grep { defined and length } @color;
-  $self->_write_bytes( $string, 16, [ @color ], q[f>f>f>f>] );
+  $self->_write_bytes( $string, 16, [@color], q[f>f>f>f>] );
   return;
 }
 
