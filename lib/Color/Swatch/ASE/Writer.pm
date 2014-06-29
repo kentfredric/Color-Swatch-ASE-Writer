@@ -159,12 +159,12 @@ sub _write_block_group {
 
 sub _write_block_label {
   my ( $self, $string, $label ) = @_;
-  $label = '' if not defined $label;
+  $label = q[] if not defined $label;
   my $label_chars = encode( 'UTF16-BE', $label, Encode::FB_CROAK );
   $label_chars .= $UTF16NULL;
   if ( $ENV{TRACE_ASE} ) {
-    *STDERR->printf( "%s : = ", [ caller(0) ]->[3] );
-    *STDERR->printf( "%02x ", ord($_) ) for split //, $label_chars;
+    *STDERR->printf( q[%s : = ], [ caller 0 ]->[3] );
+    *STDERR->printf( q[%02x ], ord($_) ) for split //msx, $label_chars;
     *STDERR->printf("\n ");
   }
 
@@ -173,14 +173,15 @@ sub _write_block_label {
 }
 
 sub _write_group_start {
-  my ( $self, $string, $block_id, $block ) = @_;
+  my ( $self, $string, $block ) = @_;
   $self->_write_block_group( $string, $block->{group}, 13 );
   $self->_write_block_label( $string, $block->{label} );
+  return;
 }
 
 sub _write_group_end {
-  my ( $self, $string, $block_id, $block ) = @_;
-  $$string .= q[];
+  my ( undef, $string ) = @_;
+  ${$string} .= q[];
   return;
 }
 
@@ -201,14 +202,14 @@ sub _write_color_model {
 
 sub _write_rgb {
   my ( $self, $string, @color ) = @_;
-  die 'RGB requires 3 values' if ( grep { defined and length } @color ) != 3;
+  die 'RGB requires 3 values' if  ( ( grep { defined and length } @color ) != 3 );
   $self->_write_bytes( $string, 12, [ $red, $green, $blue ], q[f>f>f>] );
   return;
 }
 
 sub _write_lab {
   my ( $self, $string, @color ) = @_;
-  die 'LAB requires 3 values' if ( grep { defined and length } @color ) != 3;
+  die 'LAB requires 3 values' if ( ( grep { defined and length } @color ) != 3 );
 
   $self->_write_bytes( $string, 12, [ @color], q[f>f>f>] );
   return;
@@ -216,14 +217,14 @@ sub _write_lab {
 
 sub _write_cmyk {
   my ( $self, $string, @color ) = @_;
-  die 'CMYK requires 4 values' if ( grep { defined and length } @color ) != 4;
+  die 'CMYK requires 4 values' if ( ( grep { defined and length } @color ) != 4 );
   $self->_write_bytes( $string, 16, [ @color ], q[f>f>f>f>] );
   return;
 }
 
 sub _write_gray {
   my ( $self, $string, @color ) = @_;
-  die 'Gray requires 1 value' if ( grep { defined and length } @color ) != 1;
+  die 'Gray requires 1 value' if ( ( grep { defined and length } @color ) != 1 );
   $self->_write_bytes( $string, 4, [$gray], q[f>] );
   return;
 }
@@ -271,12 +272,12 @@ sub _write_block {
 
   my $block_body = q[];
   if ( 'group_start' eq $block->{type} ) {
-    $self->_write_group_start( \$block_body, $block_id, $block );
+    $self->_write_group_start( \$block_body, $block );
     $self->_write_block_payload( $string, $BLOCK_GROUP_START, \$block_body );
     return;
   }
   if ( 'group_end' eq $block->{type} ) {
-    $self->_write_group_end( \$block_body, $block_id, $block );
+    $self->_write_group_end( \$block_body, $block );
     $self->_write_block_payload( $string, $BLOCK_GROUP_END, \$block_body );
     return;
   }
