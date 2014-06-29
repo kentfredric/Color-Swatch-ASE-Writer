@@ -52,7 +52,7 @@ my $UTF16NULL         = "\x{00}\x{00}";
 
 =method C<write_string>
 
-  my $string = Color::Swatch::ASE::Writer->write_string($fh, $structure);
+  my $string = Color::Swatch::ASE::Writer->write_string($structure);
 
 =cut
 
