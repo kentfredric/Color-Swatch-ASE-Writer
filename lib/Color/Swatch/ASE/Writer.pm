@@ -201,7 +201,7 @@ sub _write_color_model {
 sub _write_rgb {
   my ( $self, $string, @color ) = @_;
   die 'RGB requires 3 values' if 3 != grep { defined and length } @color;
-  $self->_write_bytes( $string, 12, [ $red, $green, $blue ], q[f>f>f>] );
+  $self->_write_bytes( $string, 12, [@color], q[f>f>f>] );
   return;
 }
 
