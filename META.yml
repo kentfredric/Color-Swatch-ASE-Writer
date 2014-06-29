@@ -6,6 +6,7 @@ build_requires:
   ExtUtils::MakeMaker: '0'
   File::Spec::Functions: '0'
   List::Util: '0'
+  Test::Differences: '0'
   Test::More: '0.89'
   version: '0'
 configure_requires:
@@ -24,11 +25,10 @@ provides:
 requires:
   Encode: '0'
   Path::Tiny: '0'
-  perl: '5.008'
+  perl: '5.010'
   strict: '0'
   utf8: '0'
   warnings: '0'
-  warnings::pedantic: '0'
 version: '0.001000'
 x_BuiltWith:
   modules:
@@ -86,6 +86,7 @@ x_BuiltWith:
     Pod::Coverage::TrustPod: '0.100003'
     Test::CPAN::Changes: '0.28'
     Test::CPAN::Meta: '0.23'
+    Test::Differences: '0.62'
     Test::Kwalitee: '1.18'
     Test::More: '1.001003'
     Test::Pod: '1.48'
@@ -94,7 +95,6 @@ x_BuiltWith:
     utf8: '1.14'
     version: '0.9908'
     warnings: '1.24'
-    warnings::pedantic: '0.02'
   perl:
     original: v5.21.1
     qv: 1

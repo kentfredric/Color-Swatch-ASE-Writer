@@ -16,6 +16,7 @@ perlcritic.deps
 perlcritic.rc
 t/00-compile/lib_Color_Swatch_ASE_Writer_pm.t
 t/00-report-prereqs.t
+t/basic.t
 weaver.ini
 xt/author/critic.t
 xt/release/cpan-changes.t

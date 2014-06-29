@@ -111,11 +111,10 @@ my $static_prereqs = do { my $x = {
                       'requires' => {
                                       'Encode' => '0',
                                       'Path::Tiny' => '0',
-                                      'perl' => '5.008',
+                                      'perl' => '5.010',
                                       'strict' => '0',
                                       'utf8' => '0',
-                                      'warnings' => '0',
-                                      'warnings::pedantic' => '0'
+                                      'warnings' => '0'
                                     }
                     },
        'test' => {
@@ -129,6 +128,7 @@ my $static_prereqs = do { my $x = {
                                    'ExtUtils::MakeMaker' => '0',
                                    'File::Spec::Functions' => '0',
                                    'List::Util' => '0',
+                                   'Test::Differences' => '0',
                                    'Test::More' => '0.89',
                                    'version' => '0'
                                  }

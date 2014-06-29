@@ -1,4 +1,4 @@
-use 5.008;    # utf8
+use 5.010;    # pack >
 use strict;
 use warnings;
 use utf8;
@@ -11,7 +11,29 @@ our $VERSION = '0.001000';
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
-use warnings::pedantic;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,6 +49,12 @@ my $BLOCK_GROUP_END   = "\x{c0}\x{02}";
 my $BLOCK_COLOR       = "\x{00}\x{01}";
 my $UTF16NULL         = "\x{00}\x{00}";
 ## use critic
+
+
+
+
+
+
 
 sub write_string {
   my ( $class, $struct ) = @_;
@@ -59,6 +87,8 @@ sub write_filehandle {
 
 
 
+
+
 sub write_file {
   my ( $class, $filename, $structure ) = @_;
   require Path::Tiny;
@@ -77,6 +107,9 @@ sub _write_signature {
 
 sub _write_bytes {
   my ( $self, $string, $length, $bytes, $format ) = @_;
+  if ( $ENV{TRACE_ASE} ) {
+    *STDERR->printf( "%s : %s %s = ", [ caller(1) ]->[3], $length, ( $format ? $format : '' ) );
+  }
   my @bytes;
   if ( ref $bytes ) {
     @bytes = @{$bytes};
@@ -94,6 +127,11 @@ sub _write_bytes {
   if ( ( length $append ) ne $length ) {
     warn 'Pack length did not match expected pack length!';
   }
+  if ( $ENV{TRACE_ASE} ) {
+    *STDERR->printf( "%02x ", ord($_) ) for split //, $append;
+    *STDERR->printf("\n ");
+  }
+
   $$string .= $append;
   return;
 }
@@ -122,9 +160,15 @@ sub _write_block_group {
 sub _write_block_label {
   my ( $self, $string, $label ) = @_;
   $label = '' if not defined $label;
-  my $label_chars = encode( $label, 'UTF16-BE', Encode::FB_CROAK );
+  my $label_chars = encode( 'UTF16-BE', $label, Encode::FB_CROAK );
   $label_chars .= $UTF16NULL;
-  ${$string}   .= $label_chars;
+  if ( $ENV{TRACE_ASE} ) {
+    *STDERR->printf( "%s : = ", [ caller(0) ]->[3] );
+    *STDERR->printf( "%02x ", ord($_) ) for split //, $label_chars;
+    *STDERR->printf("\n ");
+  }
+
+  ${$string} .= $label_chars;
   return;
 }
 
@@ -143,20 +187,24 @@ sub _write_group_end {
 my $color_table = {
   q[RGB ] => '_write_rgb',
   q[LAB ] => '_write_lab',
-  q[CMYK] => '_write_cymk',
+  q[CMYK] => '_write_cmyk',
   q[Gray] => '_write_gray',
 };
 
 sub _write_color_model {
   my ( $self, $string, $model ) = @_;
-  die "Color model not definde"   if not defined $model;
-  die "Uknown color model $model" if not exists $color_table->{$model};
+  die "Color model not defined" if not defined $model;
+  die "Unknown color model $model" if not exists $color_table->{$model};
   $self->_write_bytes( $string, 4, [$model] );
   return;
 }
 
 sub _write_rgb {
   my ( $self, $string, $red, $green, $blue ) = @_;
+  die "red is not defined"   if not defined $red;
+  die "green is not defined" if not defined $green;
+  die "blue is not defined"  if not defined $blue;
+
   $self->_write_bytes( $string, 12, [ $red, $green, $blue ], q[f>f>f>] );
   return;
 }
@@ -196,10 +244,21 @@ sub _write_color {
   $self->_write_color_type( $string, $block->{color_type} );
 }
 
+sub _write_block_type {
+  my ( $self, $string, $type ) = @_;
+  $self->_write_bytes( $string, 2, [$type] );
+}
+
+sub _write_block_length {
+  my ( $self, $string, $length ) = @_;
+  $self->_write_bytes( $string, 4, [$length], q[N] );
+
+}
+
 sub _write_block_payload {
   my ( $self, $string, $block_id, $block_body ) = @_;
-  $self->_write_bytes( $string, 2, [$block_id] );
-  $self->_write_bytes( $string, 4, [ length ${$block_body} ], q[N] );
+  $self->_write_block_type( $string, $block_id );
+  $self->_write_block_length( $string, length ${$block_body} );
   ${$string} .= ${$block_body};
   return;
 }
@@ -210,17 +269,17 @@ sub _write_block {
   my $block_body = '';
   if ( $block->{type} eq 'group_start' ) {
     $self->_write_group_start( \$block_body, $block_id, $block );
-    $self->_write_block_payload( \$string, $BLOCK_GROUP_START, \$block_body );
+    $self->_write_block_payload( $string, $BLOCK_GROUP_START, \$block_body );
     return;
   }
   if ( $block->{type} eq 'group_end' ) {
     $self->_write_group_end( \$block_body, $block_id, $block );
-    $self->_write_block_payload( \$string, $BLOCK_GROUP_END, \$block_body );
+    $self->_write_block_payload( $string, $BLOCK_GROUP_END, \$block_body );
     return;
   }
   if ( $block->{type} eq 'color' ) {
     $self->_write_color( \$block_body, $block_id, $block );
-    $self->_write_block_payload( \$string, $BLOCK_COLOR, \$block_body );
+    $self->_write_block_payload( $string, $BLOCK_COLOR, \$block_body );
     return;
   }
   die "Unknown block type " . $block->{type};
@@ -241,17 +300,47 @@ Color::Swatch::ASE::Writer - Low level ASE ( Adobe Swatch Exchange ) file Writer
 
 version 0.001000
 
+=head1 SYNOPSIS
+
+  use Color::Swatch::ASE::Writer;
+  my $structure = {
+    blocks => [
+      { type => 'group_start', label => 'My Colour Swatch' },
+      { type => 'color', model => 'RGB ', values => [ 0.1 , 0.5, 0.9 ]},
+      { type => 'color', model => 'RGB ', values => [ 0.9 , 0.5, 0.1 ]},
+      { type => 'group_end' },
+    ]
+  };
+
+  Color::Swatch::ASE::Writer->write_file(q[./myfile.ase], $structure );
+
+This at present is very low-level simple structure encoding, and is probably not useful to most people.
+
+Its based on the reverse-engineered specification of Adobe™'s "Swatch Exchange" format, which can be found documented many places:
+
+=over 4
+
+=item * L<selpa.net: file formats|http://www.selapa.net/swatches/colors/fileformats.php>
+
+=item * L<colourlovers.com: ase file maker|http://www.colourlovers.com/ase.phps>
+
+=item * L<forums.adobe.com: ase file format reverse engineering|https://forums.adobe.com/thread/322021?start=0&tstart=0>
+
+=back
+
 =head1 METHODS
 
 =head2 C<write_string>
 
-  my $string = Color::Swatch::ASE::Writer->write_string($structure);
+  my $string = Color::Swatch::ASE::Writer->write_string($fh, $structure);
 
 =head2 C<write_filehandle>
 
   Color::Swatch::ASE::Writer->write_filehandle($fh, $structure);
 
 =head2 C<write_file>
+
+  Color::Swatch::ASE::Writer->write_file(q[path/to/file.ase], $structure);
 
 =head1 AUTHOR
 
