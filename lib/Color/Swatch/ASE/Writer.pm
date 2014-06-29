@@ -267,18 +267,18 @@ sub _write_block_payload {
 sub _write_block {
   my ( $self, $string, $block_id, $block ) = @_;
 
-  my $block_body = '';
-  if ( $block->{type} eq 'group_start' ) {
+  my $block_body = q[];
+  if ( 'group_start' eq $block->{type} ) {
     $self->_write_group_start( \$block_body, $block_id, $block );
     $self->_write_block_payload( $string, $BLOCK_GROUP_START, \$block_body );
     return;
   }
-  if ( $block->{type} eq 'group_end' ) {
+  if ( 'group_end' eq $block->{type} ) {
     $self->_write_group_end( \$block_body, $block_id, $block );
     $self->_write_block_payload( $string, $BLOCK_GROUP_END, \$block_body );
     return;
   }
-  if ( $block->{type} eq 'color' ) {
+  if ( 'color' eq $block->{type} ) {
     $self->_write_color( \$block_body, $block_id, $block );
     $self->_write_block_payload( $string, $BLOCK_COLOR, \$block_body );
     return;
