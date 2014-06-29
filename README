@@ -3,7 +3,7 @@ NAME
     file Writer.
 
 VERSION
-    version 0.001000
+    version 0.001001
 
 SYNOPSIS
       use Color::Swatch::ASE::Writer;
@@ -35,7 +35,7 @@ SYNOPSIS
 
 METHODS
   "write_string"
-      my $string = Color::Swatch::ASE::Writer->write_string($fh, $structure);
+      my $string = Color::Swatch::ASE::Writer->write_string($structure);
 
   "write_filehandle"
       Color::Swatch::ASE::Writer->write_filehandle($fh, $structure);
