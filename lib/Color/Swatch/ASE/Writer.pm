@@ -202,14 +202,14 @@ sub _write_color_model {
 
 sub _write_rgb {
   my ( $self, $string, @color ) = @_;
-  die 'RGB requires 3 values' if  ( ( grep { defined and length } @color ) != 3 );
+  die 'RGB requires 3 values' if  3 != grep { defined and length } @color;
   $self->_write_bytes( $string, 12, [ $red, $green, $blue ], q[f>f>f>] );
   return;
 }
 
 sub _write_lab {
   my ( $self, $string, @color ) = @_;
-  die 'LAB requires 3 values' if ( ( grep { defined and length } @color ) != 3 );
+  die 'LAB requires 3 values' if 3 != grep { defined and length } @color ;
 
   $self->_write_bytes( $string, 12, [ @color], q[f>f>f>] );
   return;
@@ -217,14 +217,14 @@ sub _write_lab {
 
 sub _write_cmyk {
   my ( $self, $string, @color ) = @_;
-  die 'CMYK requires 4 values' if ( ( grep { defined and length } @color ) != 4 );
+  die 'CMYK requires 4 values' if 4 != grep { defined and length } @color;
   $self->_write_bytes( $string, 16, [ @color ], q[f>f>f>f>] );
   return;
 }
 
 sub _write_gray {
   my ( $self, $string, @color ) = @_;
-  die 'Gray requires 1 value' if ( ( grep { defined and length } @color ) != 1 );
+  die 'Gray requires 1 value' if 1 != grep { defined and length } @color;
   $self->_write_bytes( $string, 4, [$gray], q[f>] );
   return;
 }
