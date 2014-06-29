@@ -99,7 +99,7 @@ sub _write_signature {
   my ( undef, $string, $signature ) = @_;
   $signature = 'ASEF' if not defined $signature;
   if ( 'ASEF' ne $signature ) {
-    die "Signature must be ASEF";
+    die 'Signature must be ASEF';
   }
   ${$string} .= $signature;
   return;
@@ -126,7 +126,7 @@ sub _write_bytes {
   }
   if ( $ENV{TRACE_ASE} ) {
     *STDERR->printf( q[%s : %s %s = ], [ caller 1 ]->[3], $length, ( $format ? $format : q[] ) );
-    *STDERR->printf( q[%02x ], ord($_) ) for split //msx, $append;
+    *STDERR->printf( q[%02x ], ord $_ ) for split //msx, $append;
     *STDERR->printf("\n ");
   }
 
@@ -162,7 +162,7 @@ sub _write_block_label {
   $label_chars .= $UTF16NULL;
   if ( $ENV{TRACE_ASE} ) {
     *STDERR->printf( q[%s : = ], [ caller 0 ]->[3] );
-    *STDERR->printf( q[%02x ], ord($_) ) for split //msx, $label_chars;
+    *STDERR->printf( q[%02x ], ord $_ ) for split //msx, $label_chars;
     *STDERR->printf("\n ");
   }
 
@@ -284,7 +284,7 @@ sub _write_block {
     $self->_write_block_payload( $string, $BLOCK_COLOR, \$block_body );
     return;
   }
-  die "Unknown block type " . $block->{type};
+  die 'Unknown block type ' . $block->{type};
 }
 1;
 
