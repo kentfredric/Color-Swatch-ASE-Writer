@@ -247,12 +247,13 @@ sub _write_color {
 sub _write_block_type {
   my ( $self, $string, $type ) = @_;
   $self->_write_bytes( $string, 2, [$type] );
+  return;
 }
 
 sub _write_block_length {
   my ( $self, $string, $length ) = @_;
   $self->_write_bytes( $string, 4, [$length], q[N] );
-
+  return;
 }
 
 sub _write_block_payload {
