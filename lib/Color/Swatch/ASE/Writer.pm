@@ -5,7 +5,7 @@ use utf8;
 
 package Color::Swatch::ASE::Writer;
 
-our $VERSION = '0.001002';
+our $VERSION = '0.001003';
 
 # ABSTRACT: Low level ASE ( Adobe Swatch Exchange ) file Writer.
 
