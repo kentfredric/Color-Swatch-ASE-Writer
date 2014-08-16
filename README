@@ -3,7 +3,7 @@ NAME
     file Writer.
 
 VERSION
-    version 0.001001
+    version 0.001002
 
 SYNOPSIS
       use Color::Swatch::ASE::Writer;
