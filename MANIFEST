@@ -18,7 +18,6 @@ misc/Changes.deps.all
 misc/Changes.deps.dev
 misc/Changes.deps.opt
 misc/perlcritic.deps
-perlcritic.deps
 perlcritic.rc
 t/00-compile/lib_Color_Swatch_ASE_Writer_pm.t
 t/00-report-prereqs.dd
