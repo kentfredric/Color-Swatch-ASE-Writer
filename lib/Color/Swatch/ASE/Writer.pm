@@ -11,36 +11,6 @@ our $VERSION = '0.001002';
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 use Encode qw(encode);
 
 ## no critic (ValuesAndExpressions::ProhibitEscapedCharacters)
