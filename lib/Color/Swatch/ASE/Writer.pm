@@ -11,36 +11,6 @@ our $VERSION = '0.001002';
 
 # AUTHORITY
 
-=head1 SYNOPSIS
-
-  use Color::Swatch::ASE::Writer;
-  my $structure = {
-    blocks => [
-      { type => 'group_start', label => 'My Colour Swatch' },
-      { type => 'color', model => 'RGB ', values => [ 0.1 , 0.5, 0.9 ]},
-      { type => 'color', model => 'RGB ', values => [ 0.9 , 0.5, 0.1 ]},
-      { type => 'group_end' },
-    ]
-  };
-
-  Color::Swatch::ASE::Writer->write_file(q[./myfile.ase], $structure );
-
-This at present is very low-level simple structure encoding, and is probably not useful to most people.
-
-Its based on the reverse-engineered specification of Adobe™'s "Swatch Exchange" format, which can be found documented many places:
-
-=over 4
-
-=item * L<selpa.net: file formats|http://www.selapa.net/swatches/colors/fileformats.php>
-
-=item * L<colourlovers.com: ase file maker|http://www.colourlovers.com/ase.phps>
-
-=item * L<forums.adobe.com: ase file format reverse engineering|https://forums.adobe.com/thread/322021?start=0&tstart=0>
-
-=back
-
-=cut
-
 use Encode qw(encode);
 
 ## no critic (ValuesAndExpressions::ProhibitEscapedCharacters)
@@ -287,3 +257,33 @@ sub _write_block {
   die 'Unknown block type ' . $block->{type};
 }
 1;
+
+=head1 SYNOPSIS
+
+  use Color::Swatch::ASE::Writer;
+  my $structure = {
+    blocks => [
+      { type => 'group_start', label => 'My Colour Swatch' },
+      { type => 'color', model => 'RGB ', values => [ 0.1 , 0.5, 0.9 ]},
+      { type => 'color', model => 'RGB ', values => [ 0.9 , 0.5, 0.1 ]},
+      { type => 'group_end' },
+    ]
+  };
+
+  Color::Swatch::ASE::Writer->write_file(q[./myfile.ase], $structure );
+
+This at present is very low-level simple structure encoding, and is probably not useful to most people.
+
+Its based on the reverse-engineered specification of Adobe™'s "Swatch Exchange" format, which can be found documented many places:
+
+=over 4
+
+=item * L<selpa.net: file formats|http://www.selapa.net/swatches/colors/fileformats.php>
+
+=item * L<colourlovers.com: ase file maker|http://www.colourlovers.com/ase.phps>
+
+=item * L<forums.adobe.com: ase file format reverse engineering|https://forums.adobe.com/thread/322021?start=0&tstart=0>
+
+=back
+
+=cut
