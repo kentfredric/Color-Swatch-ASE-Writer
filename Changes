@@ -1,5 +1,28 @@
 Release history for Color-Swatch-ASE-Writer
 
+0.001002 2014-08-16T06:10:50Z
+ [00 Trivial]
+ - CPANDAY!
+ - no code changes
+ - tests updated
+ - metdata updated.
+ - whitespace reduced.
+
+ [Dependencies::Stats]
+ - Dependencies changed since 0.001001, see misc/*.deps* for details
+ - configure: ↓1
+ - develop: +1 ↑1 (suggests: ↑2)
+ - test: +1 -3 (recommends: ↑1 -1)
+
+ [Metadata]
+ - migrated to kentnl org.
+
+ [Misc]
+ - Improve source side POD to reduce build side whitespace.
+
+ [Tests]
+ - update Test::ReportPrereqs
+
 0.001001 2014-06-29T03:45:45Z
  - Minor documentation fixes.
 

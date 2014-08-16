@@ -5,41 +5,11 @@ use utf8;
 
 package Color::Swatch::ASE::Writer;
 
-our $VERSION = '0.001001';
+our $VERSION = '0.001002';
 
 # ABSTRACT: Low level ASE ( Adobe Swatch Exchange ) file Writer.
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 use Encode qw(encode);
 
@@ -300,7 +270,7 @@ Color::Swatch::ASE::Writer - Low level ASE ( Adobe Swatch Exchange ) file Writer
 
 =head1 VERSION
 
-version 0.001001
+version 0.001002
 
 =head1 SYNOPSIS
 
