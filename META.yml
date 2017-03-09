@@ -21,7 +21,7 @@ name: Color-Swatch-ASE-Writer
 provides:
   Color::Swatch::ASE::Writer:
     file: lib/Color/Swatch/ASE/Writer.pm
-    version: '0.001003'
+    version: '0.001004'
 recommends:
   Path::Tiny: '0.058'
 requires:
@@ -34,4 +34,4 @@ resources:
   bugtracker: https://github.com/kentnl/Color-Swatch-ASE-Writer/issues
   homepage: https://github.com/kentnl/Color-Swatch-ASE-Writer
   repository: https://github.com/kentnl/Color-Swatch-ASE-Writer.git
-version: '0.001003'
+version: '0.001004'
