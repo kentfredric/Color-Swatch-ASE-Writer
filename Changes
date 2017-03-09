@@ -7,7 +7,7 @@ Release history for Color-Swatch-ASE-Writer
  - Dependencies changed since 0.001002, see misc/*.deps* for details
  - configure: +1 (recommends: ↑1)
  - develop: +14 ↑3 -3 (recommends: +1, suggests: ↑2)
- - runtime: (recommends: +1)
+ - runtime: -1 (recommends: +1)
  - test: +1 ↓1 (recommends: ↑1 ↓1)
 
 0.001002 2014-08-16T06:10:50Z

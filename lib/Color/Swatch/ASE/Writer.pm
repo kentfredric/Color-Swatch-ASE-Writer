@@ -1,7 +1,6 @@
 use 5.010;    # pack >
 use strict;
 use warnings;
-use utf8;
 
 package Color::Swatch::ASE::Writer;
 
