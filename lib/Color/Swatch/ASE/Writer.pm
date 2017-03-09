@@ -96,7 +96,7 @@ sub _write_bytes {
   }
   if ( $ENV{TRACE_ASE} ) {
     *STDERR->printf( q[%s : %s %s = ], [ caller 1 ]->[3], $length, ( $format ? $format : q[] ) );
-    *STDERR->printf( q[%02x ], ord $_ ) for split //msx, $append;
+    *STDERR->printf( q[%02x ], ord ) for split //msx, $append;
     *STDERR->printf("\n ");
   }
 
@@ -132,7 +132,7 @@ sub _write_block_label {
   $label_chars .= $UTF16NULL;
   if ( $ENV{TRACE_ASE} ) {
     *STDERR->printf( q[%s : = ], [ caller 0 ]->[3] );
-    *STDERR->printf( q[%02x ], ord $_ ) for split //msx, $label_chars;
+    *STDERR->printf( q[%02x ], ord ) for split //msx, $label_chars;
     *STDERR->printf("\n ");
   }
 
