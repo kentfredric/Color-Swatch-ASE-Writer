@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More tests => 1;
 use Test::Differences;
 use Path::Tiny;
 
@@ -66,5 +66,3 @@ my (@chunks)  = grep length, split /(.{0,4})/, $tempdir->child('test.ase')->slur
 my (@echunks) = grep length, split /(.{0,4})/, $expected;
 
 eq_or_diff \@chunks, \@echunks;
-
-done_testing;
