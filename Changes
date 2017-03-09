@@ -1,6 +1,14 @@
 Release history for Color-Swatch-ASE-Writer
 
-0.001003 2014-08-16T06:11:42Z
+0.001003 2017-03-09T18:11:13Z d1df914
+ - Bugfix: Avoid failure with -Ddefault_inc_excludes_dot
+
+ [Dependencies::Stats]
+ - Dependencies changed since 0.001002, see misc/*.deps* for details
+ - configure: +1 (recommends: ↑1)
+ - develop: +14 ↑3 -3 (recommends: +1, suggests: ↑2)
+ - runtime: (recommends: +1)
+ - test: +1 ↓1 (recommends: ↑1 ↓1)
 
 0.001002 2014-08-16T06:10:50Z
  [00 Trivial]
@@ -30,4 +38,3 @@ Release history for Color-Swatch-ASE-Writer
 
 0.001000 2014-06-29T02:37:02Z
  - First version.
-

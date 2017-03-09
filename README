@@ -1,55 +1,28 @@
-NAME
-    Color::Swatch::ASE::Writer - Low level ASE ( Adobe Swatch Exchange )
-    file Writer.
+Color::Swatch::ASE::Writer
 
-VERSION
-    version 0.001003
 
-SYNOPSIS
-      use Color::Swatch::ASE::Writer;
-      my $structure = {
-        blocks => [
-          { type => 'group_start', label => 'My Colour Swatch' },
-          { type => 'color', model => 'RGB ', values => [ 0.1 , 0.5, 0.9 ]},
-          { type => 'color', model => 'RGB ', values => [ 0.9 , 0.5, 0.1 ]},
-          { type => 'group_end' },
-        ]
-      };
 
-      Color::Swatch::ASE::Writer->write_file(q[./myfile.ase], $structure );
+INSTALLATION
 
-    This at present is very low-level simple structure encoding, and is
-    probably not useful to most people.
+This is a Perl module distribution. It should be installed with whichever
+tool you use to manage your installation of Perl, e.g. any of
 
-    Its based on the reverse-engineered specification of Adobe™'s "Swatch
-    Exchange" format, which can be found documented many places:
+  cpanm .
+  cpan  .
+  cpanp -i .
 
-    *   selpa.net: file formats
-        <http://www.selapa.net/swatches/colors/fileformats.php>
+Consult http://www.cpan.org/modules/INSTALL.html for further instruction.
+Should you wish to install this module manually, the procedure is
 
-    *   colourlovers.com: ase file maker
-        <http://www.colourlovers.com/ase.phps>
-
-    *   forums.adobe.com: ase file format reverse engineering
-        <https://forums.adobe.com/thread/322021?start=0&tstart=0>
-
-METHODS
-  "write_string"
-      my $string = Color::Swatch::ASE::Writer->write_string($structure);
-
-  "write_filehandle"
-      Color::Swatch::ASE::Writer->write_filehandle($fh, $structure);
-
-  "write_file"
-      Color::Swatch::ASE::Writer->write_file(q[path/to/file.ase], $structure);
-
-AUTHOR
-    Kent Fredric <kentfredric@gmail.com>
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2014 by Kent Fredric
-    <kentfredric@gmail.com>.
 
-    This is free software; you can redistribute it and/or modify it under
-    the same terms as the Perl 5 programming language system itself.
+This software is copyright (c) 2017 by Kent Fredric
+<kentfredric@gmail.com>.
 
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
