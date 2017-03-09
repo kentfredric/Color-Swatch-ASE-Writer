@@ -4,7 +4,7 @@ Color::Swatch::ASE::Writer - Low level ASE ( Adobe Swatch Exchange ) file Writer
 
 # VERSION
 
-version 0.001003
+version 0.001004
 
 # SYNOPSIS
 
