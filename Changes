@@ -2,6 +2,7 @@ Release history for Color-Swatch-ASE-Writer
 
 {{$NEXT}}
  - Bugfix: Avoid failure with -Ddefault_inc_excludes_dot
+ - Tests made work with older Test::More
 
  [Dependencies::Stats]
  - Dependencies changed since 0.001002, see misc/*.deps* for details
