@@ -4,7 +4,7 @@ use warnings;
 
 package Color::Swatch::ASE::Writer;
 
-our $VERSION = '0.001003';
+our $VERSION = '0.001004';
 
 # ABSTRACT: Low level ASE ( Adobe Swatch Exchange ) file Writer.
 
